@@ -1,4 +1,4 @@
-from entities import NoteEnum, NoteRep
+from src.entities import NoteEnum, NoteRep
 
 
 def test_correctly_build_note_instances():
@@ -16,6 +16,7 @@ def test_correctly_build_note_instances():
     for (rep, note) in equivalences:
         instance = NoteRep(rep)
         assert instance.note_name == note, f"{rep} should be {note}. But it is {instance.note_name}"
+
 
 def test_correct_octave_identified():
     equivalences = [
