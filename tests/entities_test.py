@@ -1,4 +1,4 @@
-from src.entities import NoteEnum, NoteRep
+from src.entities import NoteEnum, NoteRep, ModifierType
 
 
 def test_correctly_build_note_instances():
@@ -31,3 +31,17 @@ def test_correct_octave_identified():
         instance = NoteRep(rep)
         assert instance.note_name == note
         assert instance.octave == octave
+
+
+def test_parses_modifiers():
+    equivalences = [
+        ("@:l1", NoteEnum.DO, ModifierType.FLAT),
+        ("b1", NoteEnum.RE, ModifierType.NONE),
+        ("#:l2", NoteEnum.MI, ModifierType.SHARP),
+        ("x:l2", NoteEnum.MI, ModifierType.CANCEL),
+    ]
+
+    for (rep, note, modifier) in equivalences:
+        instance = NoteRep(rep)
+        assert instance.note_name == note
+        assert instance.local_modifier == modifier

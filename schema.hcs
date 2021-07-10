@@ -1,7 +1,7 @@
 << This is a comment line, it starts with `<<`
 
 
-# This is the title, it starts with #. There can only be one title line in the file
+!! This is the title, it starts with '!!'. There can only be one title line in the file
 
 << Note that the title is optional
 
@@ -17,7 +17,9 @@ mods: #:l1 @:b3
 mods: @:l3
 
 l1 l2 b1 b2 l1 l3 l5
-#:l1 #:b2 l5
+<< See here that we can specify modifiers 'inline' by using the same syntax we use in 'mods:'. For inline\
+<< modifiers we also have 'x:' which cancels and global modifier for the note
+#:l1 #:b2 x:l3
 l-1 l54 l-6
 
 << there can be spaces between 'blocks' which will at the end get rendered (every generated block of notes
