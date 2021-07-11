@@ -58,30 +58,45 @@ def _iter_convert(inpt: HcsFile) -> str:
     last_note = NoteRep('l1')
     last_position_hole = 1
 
-    notes_for_blocks = []
+    all_notes = []
     for block in inpt.blocks:
 
         notes_for_block = []
         for line in block.lines:
+
+            notes_for_lines = []
             for note in line.notes:
 
                 last_position_hole, rep = _convert_note_to_chromatic(
                     note, last_note, last_position_hole
                 )
 
-                notes_for_block.append(rep)
+                notes_for_lines.append(rep)
+
+            if len(notes_for_lines) > 0:
+                notes_for_block.append(notes_for_lines)
 
         if len(notes_for_block) > 0:
-            notes_for_blocks.append(notes_for_block)
+            all_notes.append(notes_for_block)
 
-    return notes_for_blocks
+    return all_notes
+
 
 def convert(inpt: HcsFile):
+    """
+    Takes the input HcsFile and does all the conversion pipline for outputing chromatic
+    harmonica notes. 
+
+    This method will print the notes directly to the console.
+    """
     print()
     print(inpt.title)
-    print()
+
     all_block_notes = _iter_convert(inpt)
 
     for block_notes in all_block_notes:
         print()
-        print('  '.join(block_notes))
+        for line_notes in block_notes:
+            print('  '.join(line_notes))
+
+    print()
