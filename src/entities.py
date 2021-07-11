@@ -72,4 +72,12 @@ class NoteRep:
             NOTES_PROGRESSION)]
         self.octave = position_num // len(NOTES_PROGRESSION)
 
-        # TODO implement global modifier
+        # add global modifier
+        for mod in global_modifiers:
+            if mod.note_name == self.note_name and mod.octave == self.octave:
+                if self.local_modifier == ModifierType.CANCEL:
+                    self.local_modifier = ModifierType.NONE
+                elif self.local_modifier != ModifierType.CANCEL and self.local_modifier != ModifierType.NONE:
+                    self.local_modifier = self.local_modifier
+                else:
+                    self.local_modifier = mod.local_modifier
