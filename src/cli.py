@@ -1,5 +1,8 @@
 import click
-import chromatic_converter
+
+from src import chromatic_converter
+from src.parser import parser
+
 
 @click.group()
 def cli():
@@ -10,9 +13,10 @@ def cli():
 
 
 @cli.command()
-def convert_chromatic():
+@click.argument('filename', type=click.File('r'))
+def convert_chromatic(filename: click.File):
     """
     Converts input file to chromatic tablature
     """
-    # chromatic_converter.convert()
-    pass
+    parsed = parser.parse(filename.read())
+    chromatic_converter.convert(parsed)

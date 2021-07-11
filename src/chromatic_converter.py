@@ -74,13 +74,14 @@ def _iter_convert(inpt: HcsFile) -> str:
         if len(notes_for_block) > 0:
             notes_for_blocks.append(notes_for_block)
 
+    return notes_for_blocks
 
 def convert(inpt: HcsFile):
+    print()
     print(inpt.title)
     print()
     all_block_notes = _iter_convert(inpt)
 
     for block_notes in all_block_notes:
         print()
-        for line in block_notes:
-            print(line)
+        print('  '.join(block_notes))

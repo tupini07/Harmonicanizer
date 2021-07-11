@@ -33,7 +33,6 @@ def parse(content: str) -> HcsFile:
     """
     Parses the contents of a _Harmonicanizer Notation_ file.
     """
-
     lines = content.split("\n")
 
     # Extract title

@@ -7,8 +7,8 @@ class Line:
     notes: List[NoteRep]
 
     def __init__(self, raw_line: str, global_modifiers: List[NoteRep]):
-        notes = [NoteRep(element, global_modifiers)
-                 for element in raw_line.split(' ')]
+        self.notes = [NoteRep(element, global_modifiers)
+                      for element in raw_line.split(' ')]
 
 
 class Block:
