@@ -20,7 +20,7 @@ def _draw_note(modifier: ModifierType, position: int, draw: bool) -> str:
     assert modifier == ModifierType.NONE or modifier == ModifierType.SHARP, 'Cannot render a chromatic note that has FLAT modifier'
 
     modifier = '<' if modifier == ModifierType.SHARP else ''
-    draw = '-' if draw else ''
+    draw = '-' if draw else '+'
     return f'{modifier}{draw}{position}'
 
 
