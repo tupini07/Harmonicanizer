@@ -3,17 +3,47 @@ import re
 from src.entities import NOTES_PROGRESSION, ModifierType, NoteEnum, NoteRep
 from src.parser.entities import HcsFile
 
+_HARMONICA_NOTES = {
+    1: {
+        NoteEnum.DO: 1,
+        NoteEnum.RE: 1,
+        NoteEnum.MI: 2,
+        NoteEnum.FA: 2,
+        NoteEnum.SOL: 3,
+        NoteEnum.LA: 3,
+        NoteEnum.SI: 4,
+    },
+    2: {
+        NoteEnum.DO: 5,
+        NoteEnum.RE: 5,
+        NoteEnum.MI: 6,
+        NoteEnum.FA: 6,
+        NoteEnum.SOL: 7,
+        NoteEnum.LA: 7,
+        NoteEnum.SI: 8,
+    },
+    3: {
+        NoteEnum.DO: 9,
+        NoteEnum.RE: 9,
+        NoteEnum.MI: 10,
+        NoteEnum.FA: 10,
+        NoteEnum.SOL: 11,
+        NoteEnum.LA: 11,
+        NoteEnum.SI: 12,
+    },
+}
+
 
 def _calc_position_for_note(note: NoteRep) -> (int, bool):
-    octave_start_pos = max(1, note.octave * 5)
-    calcd_new_pos = octave_start_pos + \
-        (NOTES_PROGRESSION.index(note.note_name) // 2)
+    # octave_start_pos = max(1, note.octave * 5)
+    # calcd_new_pos = octave_start_pos + \
+    #     (NOTES_PROGRESSION.index(note.note_name) // 2)
 
     is_draw = (NOTES_PROGRESSION.index(note.note_name)+1) % 2 == 0
     if note.note_name == NoteEnum.SI:
         is_draw = True
 
-    return calcd_new_pos, is_draw
+    return _HARMONICA_NOTES[note.octave+1][note.note_name], is_draw
 
 
 def _draw_note(modifier: ModifierType, position: int, draw: bool) -> str:
@@ -51,6 +81,7 @@ def _convert_note_to_chromatic(current_note: NoteRep, previous_note: NoteRep, la
             if difference > 0:
                 new_note_pos -= 1
 
+    print(new_note_pos)
     return new_note_pos, _draw_note(current_note.local_modifier, new_note_pos, new_note_draw)
 
 

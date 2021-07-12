@@ -52,10 +52,12 @@ def parse(content: str) -> HcsFile:
         "<<") and not l.startswith("!!")]
 
     # Get mods and join them
-    mod_lines = [l for l in lines if l.startswith("mods:")]
-    mods = set(' '.join(mod_lines).split(' '))
-    mods.remove('mods:')
-    mods = [NoteRep(raw_mod) for raw_mod in mods]
+    mods = []
+    if 'mods:' in content:
+        mod_lines = [l for l in lines if l.startswith("mods:")]
+        mods = set(' '.join(mod_lines).split(' '))
+        mods.remove('mods:')
+        mods = [NoteRep(raw_mod) for raw_mod in mods]
 
     lines = [l for l in lines if not l.startswith('mods:')]
 

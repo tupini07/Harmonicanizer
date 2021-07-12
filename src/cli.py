@@ -1,15 +1,24 @@
 import click
 
 from src import chromatic_converter
+from src.entities import NoteEnum, NOTES_PROGRESSION
 from src.parser import parser
 
 
 @click.group()
-def cli():
+@click.option(
+    '-s',
+    '--starting-note',
+    type=click.Choice(NoteEnum.__members__),
+    callback=lambda c, p, v: getattr(NoteEnum, v) if v else None,
+    default='DO', help='The note that we can find on line 1'
+)
+def cli(starting_note: NoteEnum):
     """
     Hi!
     """
-    pass
+    while NOTES_PROGRESSION[0] != starting_note:
+        NOTES_PROGRESSION.append(NOTES_PROGRESSION.pop(0))
 
 
 @cli.command()

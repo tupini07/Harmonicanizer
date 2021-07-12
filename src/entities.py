@@ -81,3 +81,6 @@ class NoteRep:
                     self.local_modifier = self.local_modifier
                 else:
                     self.local_modifier = mod.local_modifier
+
+    def __repr__(self) -> str:
+        return f"<NoteRep {self.note_name} {str(self.local_modifier)}>"
