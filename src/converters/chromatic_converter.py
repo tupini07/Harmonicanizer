@@ -81,7 +81,6 @@ def _convert_note_to_chromatic(current_note: NoteRep, previous_note: NoteRep, la
             if difference > 0:
                 new_note_pos -= 1
 
-    print(new_note_pos)
     return new_note_pos, _draw_note(current_note.local_modifier, new_note_pos, new_note_draw)
 
 

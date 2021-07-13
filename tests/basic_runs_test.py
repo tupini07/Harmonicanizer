@@ -1,5 +1,5 @@
 from src.parser import parser
-from src import chromatic_converter
+from src.converters import chromatic_converter
 
 
 def test_pipeline_processes_schema():

@@ -1,12 +1,12 @@
-from src.chromatic_converter import (_calc_position_for_note,
-                                     _convert_note_to_chromatic, _draw_note)
+from src.converters.chromatic_converter import (_calc_position_for_note,
+                                                _convert_note_to_chromatic, _draw_note)
 from src.entities import ModifierType, NoteEnum, NoteRep
 
 
 def test__draw_note():
     cases = [
         (ModifierType.SHARP, 2, True, '<-2'),
-        (ModifierType.NONE, 2, False, '2'),
+        (ModifierType.NONE, 2, False, '+2'),
         (ModifierType.NONE, 4, True, '-4'),
     ]
 
@@ -42,7 +42,7 @@ def test__convert_note_to_chromatic():
 
     pos, rep = _convert_note_to_chromatic(next_note, prev_note, 2)
     assert pos == 4
-    assert rep == '4'
+    assert rep == '+4'
 
     next_note.note_name = NoteEnum.LA
     next_note.octave = 1
