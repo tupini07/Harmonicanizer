@@ -10,12 +10,17 @@ class Line:
         self.notes = [NoteRep(element, global_modifiers)
                       for element in raw_line.split(' ')]
 
+    def get_array(self) -> List[str]:
+        return [note.get_raw_rep() for note in self.notes]
 
 class Block:
     lines: List[Line]
 
     def __init__(self, raw_block: List[str], global_modifiers: List[NoteRep]):
         self.lines = [Line(line, global_modifiers) for line in raw_block]
+
+    def get_array(self) -> List[List[str]]:
+        return [l.get_array() for l in self.lines]
 
 
 class HcsFile:

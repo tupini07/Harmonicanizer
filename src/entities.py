@@ -31,6 +31,12 @@ NOTES_PROGRESSION = [
     NoteEnum.SI,
 ]
 
+MOD_STRINGS = {
+    ModifierType.NONE: '',
+    ModifierType.FLAT: 'b',
+    ModifierType.SHARP: '#'
+}
+
 
 class NoteRep:
     octave: int
@@ -84,6 +90,11 @@ class NoteRep:
                         self.local_modifier = mod.local_modifier
         except:
             raise Exception(f'Error parsing note: "{note_definition}"')
+
+    def get_raw_rep(self) -> str:
+        mod_str = MOD_STRINGS[self.local_modifier]
+
+        return f'{self.note_name.value}{mod_str}({self.octave+1})'
 
     def __repr__(self) -> str:
         return f"<NoteRep {self.note_name} {str(self.local_modifier)}>"

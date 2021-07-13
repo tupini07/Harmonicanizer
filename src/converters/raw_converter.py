@@ -1,4 +1,5 @@
 import re
+from tabulate import tabulate
 
 from src.entities import NOTES_PROGRESSION, ModifierType, NoteEnum, NoteRep
 from src.parser.entities import HcsFile
@@ -84,58 +85,12 @@ def _convert_note_to_chromatic(current_note: NoteRep, previous_note: NoteRep, la
     return new_note_pos, _draw_note(current_note.local_modifier, new_note_pos, new_note_draw)
 
 
-def _iter_convert(inpt: HcsFile) -> str:
-    last_note = NoteRep('l1')
-    last_position_hole = 1
-
-    all_notes = []
-    for block in inpt.blocks:
-
-        notes_for_block = []
-        for line in block.lines:
-
-            notes_for_lines = []
-            for note in line.notes:
-
-                last_position_hole, rep = _convert_note_to_chromatic(
-                    note, last_note, last_position_hole
-                )
-
-                notes_for_lines.append(rep)
-
-            if len(notes_for_lines) > 0:
-                notes_for_block.append(notes_for_lines)
-
-        if len(notes_for_block) > 0:
-            all_notes.append(notes_for_block)
-
-    return all_notes
-
-
-MOD_STRINGS = {
-    ModifierType.NONE: '',
-    ModifierType.FLAT: 'b',
-    ModifierType.SHARP: '#'
-}
-
-
-def _print_single_note(note: NoteRep) -> None:
-    mod_str = MOD_STRINGS[note.local_modifier]
-
-    print(
-        f'{note.note_name.value}{mod_str}({note.octave+1})', end=' ')
-
-
 def convert(inpt: HcsFile):
     print()
     print(inpt.title)
 
-    all_block_notes = _iter_convert(inpt)
-
     for block_notes in inpt.blocks:
         print()
-        for line_notes in block_notes.lines:
-            for note in line_notes.notes:
-                _print_single_note(note)
-            print()
+        print(tabulate(block_notes.get_array(), tablefmt="plain"))
+
     print()
