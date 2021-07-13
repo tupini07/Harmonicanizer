@@ -1,6 +1,6 @@
 import click
 
-from src import chromatic_converter
+from src.converters import chromatic_converter, raw_converter
 from src.entities import NoteEnum, NOTES_PROGRESSION
 from src.parser import parser
 
@@ -19,6 +19,16 @@ def cli(starting_note: NoteEnum):
     """
     while NOTES_PROGRESSION[0] != starting_note:
         NOTES_PROGRESSION.append(NOTES_PROGRESSION.pop(0))
+
+
+@cli.command()
+@click.argument('filename', type=click.File('r'))
+def convert_raw(filename: click.File):
+    """
+    Converts input file to raw note information (note and octave)
+    """
+    parsed = parser.parse(filename.read())
+    raw_converter.convert(parsed)
 
 
 @cli.command()

@@ -1,5 +1,4 @@
 import re
-from typing import List
 
 from src.entities import NOTES_PROGRESSION, ModifierType, NoteEnum, NoteRep
 from src.parser.entities import HcsFile
@@ -85,7 +84,7 @@ def _convert_note_to_chromatic(current_note: NoteRep, previous_note: NoteRep, la
     return new_note_pos, _draw_note(current_note.local_modifier, new_note_pos, new_note_draw)
 
 
-def _iter_convert(inpt: HcsFile) -> List[List[List[str]]]:
+def _iter_convert(inpt: HcsFile) -> str:
     last_note = NoteRep('l1')
     last_position_hole = 1
 
@@ -113,21 +112,30 @@ def _iter_convert(inpt: HcsFile) -> List[List[List[str]]]:
     return all_notes
 
 
-def convert(inpt: HcsFile):
-    """
-    Takes the input HcsFile and does all the conversion pipline for outputing chromatic
-    harmonica notes. 
+MOD_STRINGS = {
+    ModifierType.NONE: '',
+    ModifierType.FLAT: 'b',
+    ModifierType.SHARP: '#'
+}
 
-    This method will print the notes directly to the console.
-    """
+
+def _print_single_note(note: NoteRep) -> None:
+    mod_str = MOD_STRINGS[note.local_modifier]
+
+    print(
+        f'{note.note_name.value}{mod_str}({note.octave+1})', end=' ')
+
+
+def convert(inpt: HcsFile):
     print()
     print(inpt.title)
 
     all_block_notes = _iter_convert(inpt)
 
-    for block_notes in all_block_notes:
+    for block_notes in inpt.blocks:
         print()
-        for line_notes in block_notes:
-            print('  '.join(line_notes))
-
+        for line_notes in block_notes.lines:
+            for note in line_notes.notes:
+                _print_single_note(note)
+            print()
     print()
