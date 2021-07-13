@@ -1,3 +1,4 @@
+import re
 from typing import List
 
 from src.entities import NoteRep
@@ -33,6 +34,9 @@ def parse(content: str) -> HcsFile:
     """
     Parses the contents of a _Harmonicanizer Notation_ file.
     """
+
+    # Collapse all multiple white spaces into only one whitespace
+    content = re.sub(r' +', ' ', content)
     lines = content.split("\n")
 
     # Extract title

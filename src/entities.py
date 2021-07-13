@@ -45,42 +45,45 @@ class NoteRep:
         else:
             raw_modifier, raw_note = (None, note_definition)
 
-        # set local modifer
-        if raw_modifier == 'x':
-            self.local_modifier = ModifierType.CANCEL
-        elif raw_modifier == '@':
-            self.local_modifier = ModifierType.FLAT
-        elif raw_modifier == '#':
-            self.local_modifier = ModifierType.SHARP
-        elif raw_modifier is None:
-            self.local_modifier = ModifierType.NONE
-        else:
-            raise AssertionError(f'Unknown modifier: {raw_modifier}')
+        try:
+            # set local modifer
+            if raw_modifier == 'x':
+                self.local_modifier = ModifierType.CANCEL
+            elif raw_modifier == '@':
+                self.local_modifier = ModifierType.FLAT
+            elif raw_modifier == '#':
+                self.local_modifier = ModifierType.SHARP
+            elif raw_modifier is None:
+                self.local_modifier = ModifierType.NONE
+            else:
+                raise AssertionError(f'Unknown modifier: {raw_modifier}')
 
-        # set note and octave
-        position_type, position_num = re.search(
-            r'(l|b)(-?\d+)', raw_note).groups()
+            # set note and octave
+            position_type, position_num = re.search(
+                r'(l|b)(-?\d+)', raw_note).groups()
 
-        position_num = int(position_num)
+            position_num = int(position_num)
 
-        if position_type == "b":
-            position_num = (position_num * 2) - 1
-        else:
-            position_num = (position_num - 1) * 2
+            if position_type == "b":
+                position_num = (position_num * 2) - 1
+            else:
+                position_num = (position_num - 1) * 2
 
-        self.note_name = NOTES_PROGRESSION[position_num % len(
-            NOTES_PROGRESSION)]
-        self.octave = position_num // len(NOTES_PROGRESSION)
+            self.note_name = NOTES_PROGRESSION[position_num % len(
+                NOTES_PROGRESSION)]
+            self.octave = position_num // len(NOTES_PROGRESSION)
 
-        # add global modifier
-        for mod in global_modifiers:
-            if mod.note_name == self.note_name and mod.octave == self.octave:
-                if self.local_modifier == ModifierType.CANCEL:
-                    self.local_modifier = ModifierType.NONE
-                elif self.local_modifier != ModifierType.CANCEL and self.local_modifier != ModifierType.NONE:
-                    self.local_modifier = self.local_modifier
-                else:
-                    self.local_modifier = mod.local_modifier
+            # add global modifier
+            for mod in global_modifiers:
+                if mod.note_name == self.note_name and mod.octave == self.octave:
+                    if self.local_modifier == ModifierType.CANCEL:
+                        self.local_modifier = ModifierType.NONE
+                    elif self.local_modifier != ModifierType.CANCEL and self.local_modifier != ModifierType.NONE:
+                        self.local_modifier = self.local_modifier
+                    else:
+                        self.local_modifier = mod.local_modifier
+        except:
+            raise Exception(f'Error parsing note: "{note_definition}"')
 
     def __repr__(self) -> str:
         return f"<NoteRep {self.note_name} {str(self.local_modifier)}>"
