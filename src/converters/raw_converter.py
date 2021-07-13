@@ -1,8 +1,8 @@
 import re
-from tabulate import tabulate
 
 from src.entities import NOTES_PROGRESSION, ModifierType, NoteEnum, NoteRep
 from src.parser.entities import HcsFile
+from tabulate import tabulate
 
 _HARMONICA_NOTES = {
     1: {

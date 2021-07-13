@@ -3,6 +3,7 @@ from typing import List
 
 from src.entities import NOTES_PROGRESSION, ModifierType, NoteEnum, NoteRep
 from src.parser.entities import HcsFile
+from tabulate import tabulate
 
 _HARMONICA_NOTES = {
     1: {
@@ -127,7 +128,9 @@ def convert(inpt: HcsFile):
 
     for block_notes in all_block_notes:
         print()
-        for line_notes in block_notes:
-            print('  '.join(line_notes))
+        print(tabulate(block_notes, tablefmt="plain"))
+
+        # for line_notes in block_notes:
+        #     print('  '.join(line_notes))
 
     print()
