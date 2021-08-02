@@ -49,7 +49,7 @@ def _calc_position_for_note(note: NoteRep) -> (int, bool):
 
 
 def _draw_note(modifier: ModifierType, position: int, draw: bool) -> str:
-    assert modifier == ModifierType.NONE or modifier == ModifierType.SHARP, 'Cannot render a chromatic note that has FLAT modifier'
+    assert modifier != ModifierType.FLAT, 'Cannot render a chromatic note that has FLAT modifier'
 
     modifier = '<' if modifier == ModifierType.SHARP else ''
     draw = '-' if draw else '+'

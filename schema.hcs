@@ -16,7 +16,7 @@
 mods: #:l1 @:b3
 mods: @:l3
 
-l1 l2 b1 b2 l1 l3 l5
+x:l1 l2 b1 b2 l1 l3 l5
 << See here that we can specify modifiers 'inline' by using the same syntax we use in 'mods:'. For inline\
 << modifiers we also have 'x:' which cancels and global modifier for the note
 #:l1 #:b2 x:l3
